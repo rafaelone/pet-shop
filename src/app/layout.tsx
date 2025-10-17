@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter, Inter_Tight } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { Toaster } from 'sonner';
 import '@/styles/globals.css';
+// import { Header } from '@/components/header';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -8,7 +10,7 @@ const inter = Inter({
   weight: ['400', '500', '700'],
 });
 
-const interTight = Inter_Tight({
+const interTight = Inter({
   variable: '--font-inter-tight',
   subsets: ['latin'],
   weight: ['700'],
@@ -17,7 +19,7 @@ const interTight = Inter_Tight({
 export const metadata: Metadata = {
   title: 'Mundo Pet',
   description:
-    'Aqui você pode ver todos os clientes e servicos agendados para hoje.',
+    'Aqui você pode ver todos os clientes e serviços agendados para hoje.',
 };
 
 export default function RootLayout({
@@ -27,8 +29,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${interTight.variable}  antialiased`}>
-        {children}
+      <body className={`${inter.variable} ${interTight.variable} antialiased`}>
+        {/* <Header /> */}
+
+        <div className="max-w-3xl mx-auto">
+          <main className="flex-1 flex flex-col mt-12">
+            {children}
+            <Toaster position="top-right" />
+          </main>
+        </div>
       </body>
     </html>
   );
