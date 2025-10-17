@@ -1,8 +1,8 @@
 import { Appointment as AppointmentPrisma } from '@/generated/prisma';
-import type {
+import {
   Appointment,
-  AppointmentPeriodDay,
   AppointmentPeriod,
+  AppointmentPeriodDay,
 } from '@/types/appointment';
 
 export const getPeriod = (hour: number): AppointmentPeriodDay => {
@@ -14,26 +14,21 @@ export const getPeriod = (hour: number): AppointmentPeriodDay => {
 export function groupAppointmentByPeriod(
   appointments: AppointmentPrisma[]
 ): AppointmentPeriod[] {
-  const transformedAppointments: Appointment[] = appointments.map(
-    (appointment) => ({
-      ...appointment,
-      time: appointment.scheduleAt.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-      service: appointment.description,
-      period: getPeriod(appointment.scheduleAt.getHours()),
-    })
-  );
+  const transformedAppointments: Appointment[] = appointments?.map((apt) => ({
+    ...apt,
+    time: formatDateTime(apt.scheduleAt),
+    service: apt.description,
+    period: getPeriod(parseInt(formatDateTime(apt.scheduleAt))),
+  }));
 
   const morningAppointments = transformedAppointments.filter(
-    (appointment) => appointment.period === 'morning'
+    (apt) => apt.period === 'morning'
   );
   const afternoonAppointments = transformedAppointments.filter(
-    (appointment) => appointment.period === 'afternoon'
+    (apt) => apt.period === 'afternoon'
   );
   const eveningAppointments = transformedAppointments.filter(
-    (appointment) => appointment.period === 'evening'
+    (apt) => apt.period === 'evening'
   );
 
   return [
@@ -56,4 +51,25 @@ export function groupAppointmentByPeriod(
       appointments: eveningAppointments,
     },
   ];
+}
+
+export function calculatePeriod(hour: number) {
+  const isMorning = hour >= 9 && hour < 12;
+  const isAfternoon = hour >= 13 && hour < 18;
+  const isEvening = hour >= 19 && hour < 21;
+
+  return {
+    isMorning,
+    isAfternoon,
+    isEvening,
+  };
+}
+
+export function formatDateTime(date: Date): string {
+  return date.toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'America/Sao_Paulo',
+  });
 }
