@@ -2,6 +2,7 @@
 
 Sistema de agendamento para pet shop desenvolvido com Next.js 15, React 19 e PostgreSQL.
 
+![Formulário de Agendamento](./doc/image2.png)
 ![Interface Principal](./doc/image1.png)
 
 ## 📋 Funcionalidades
@@ -13,8 +14,6 @@ Sistema de agendamento para pet shop desenvolvido com Next.js 15, React 19 e Pos
 - ✅ Interface responsiva
 - ✅ Validação de formulários
 - ✅ Feedback visual com toasts
-
-![Formulário de Agendamento](./doc/image2.png)
 
 ## 🚀 Tecnologias
 
